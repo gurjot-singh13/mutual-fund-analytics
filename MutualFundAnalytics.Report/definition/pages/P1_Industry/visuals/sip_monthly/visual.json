@@ -1,0 +1,121 @@
+{
+  "name": "sip_monthly",
+  "position": {
+    "x": 20,
+    "y": 500,
+    "z": 0,
+    "height": 200,
+    "width": 760,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SIP_Inflows"
+                    }
+                  },
+                  "Property": "date"
+                }
+              },
+              "queryRef": "SIP_Inflows.date"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "SIP_Inflows"
+                        }
+                      },
+                      "Property": "sip_inflow_crore"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(SIP_Inflows.sip_inflow_crore)"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "SIP_Inflows"
+                        }
+                      },
+                      "Property": "active_sip_accounts_crore"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(SIP_Inflows.active_sip_accounts_crore)"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Monthly SIP Inflow vs Active Accounts'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis2": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": []
+}

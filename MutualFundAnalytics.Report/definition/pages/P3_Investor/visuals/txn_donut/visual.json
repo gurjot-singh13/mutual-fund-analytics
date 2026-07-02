@@ -1,0 +1,88 @@
+{
+  "name": "txn_donut",
+  "position": {
+    "x": 195,
+    "y": 0,
+    "z": 0,
+    "height": 290,
+    "width": 320,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Investor_Transactions"
+                    }
+                  },
+                  "Property": "transaction_type"
+                }
+              },
+              "queryRef": "Investor_Transactions.transaction_type"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Transaction Value"
+                }
+              },
+              "queryRef": "_Measures.Total Transaction Value"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Transaction Mix by Value'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Bottom'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": []
+}

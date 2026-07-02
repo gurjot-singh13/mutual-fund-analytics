@@ -1,0 +1,207 @@
+{
+  "name": "fund_scorecard_tbl",
+  "position": {
+    "x": 715,
+    "y": 145,
+    "z": 0,
+    "height": 310,
+    "width": 555,
+    "tabOrder": 1010
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fund_Master"
+                    }
+                  },
+                  "Property": "scheme_name"
+                }
+              },
+              "queryRef": "Fund_Master.scheme_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fund_Master"
+                    }
+                  },
+                  "Property": "sub_category"
+                }
+              },
+              "queryRef": "Fund_Master.sub_category"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fund_Scorecard"
+                    }
+                  },
+                  "Property": "CAGR_1Y"
+                }
+              },
+              "queryRef": "Fund_Scorecard.CAGR_1Y"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fund_Scorecard"
+                    }
+                  },
+                  "Property": "CAGR_3Y"
+                }
+              },
+              "queryRef": "Fund_Scorecard.CAGR_3Y"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fund_Scorecard"
+                    }
+                  },
+                  "Property": "CAGR_5Y"
+                }
+              },
+              "queryRef": "Fund_Scorecard.CAGR_5Y"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fund_Scorecard"
+                    }
+                  },
+                  "Property": "sharpe_ratio"
+                }
+              },
+              "queryRef": "Fund_Scorecard.sharpe_ratio"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fund_Scorecard"
+                    }
+                  },
+                  "Property": "alpha"
+                }
+              },
+              "queryRef": "Fund_Scorecard.alpha"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fund_Scorecard"
+                    }
+                  },
+                  "Property": "max_drawdown"
+                }
+              },
+              "queryRef": "Fund_Scorecard.max_drawdown"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fund_Scorecard"
+                    }
+                  },
+                  "Property": "fund_score"
+                }
+              },
+              "queryRef": "Fund_Scorecard.fund_score"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Fund Scorecard'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0B2545'"
+                    }
+                  }
+                }
+              }
+            },
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "3"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0B2545'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": []
+}

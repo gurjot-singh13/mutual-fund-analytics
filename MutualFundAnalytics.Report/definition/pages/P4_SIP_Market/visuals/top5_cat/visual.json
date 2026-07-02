@@ -1,0 +1,117 @@
+{
+  "name": "top5_cat",
+  "position": {
+    "x": 645,
+    "y": 300,
+    "z": 0,
+    "height": 410,
+    "width": 625,
+    "tabOrder": 2010
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Category_Inflows"
+                    }
+                  },
+                  "Property": "category"
+                }
+              },
+              "queryRef": "Category_Inflows.category"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Net Category Inflow"
+                }
+              },
+              "queryRef": "_Measures.Net Category Inflow"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top Categories by Net Inflow (₹ Cr)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "defaultColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F2A541'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": [
+    {
+      "name": "TopN_Categories",
+      "type": "TopN",
+      "expression": {
+        "Column": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Category_Inflows"
+            }
+          },
+          "Property": "category"
+        }
+      },
+      "operator": "Top",
+      "itemCount": 5,
+      "orderBy": [
+        {
+          "direction": "Descending",
+          "expression": {
+            "Measure": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "_Measures"
+                }
+              },
+              "Property": "Net Category Inflow"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

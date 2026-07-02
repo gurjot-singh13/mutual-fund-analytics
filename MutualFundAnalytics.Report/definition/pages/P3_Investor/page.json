@@ -1,0 +1,12 @@
+{
+  "name": "P3_Investor",
+  "displayName": "👥 Investor Analytics",
+  "ordinal": 2,
+  "type": "Normal",
+  "height": 720,
+  "width": 1280,
+  "config": {
+    "visibility": 0,
+    "displayOption": 3
+  }
+}

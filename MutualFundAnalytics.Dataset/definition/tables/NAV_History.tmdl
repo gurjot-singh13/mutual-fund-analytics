@@ -1,0 +1,33 @@
+table NAV_History
+	lineageTag: bb000002-0000-0000-0000-000000000002
+
+	column amfi_code
+		dataType: int64
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+		annotation UnderlyingDateTimeDataType = Date
+
+	column nav
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	partition 'NAV_History' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/02_nav_history.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"amfi_code", Int64.Type},
+					{"date", type date},
+					{"nav", type number}
+				})
+			in
+				Typed

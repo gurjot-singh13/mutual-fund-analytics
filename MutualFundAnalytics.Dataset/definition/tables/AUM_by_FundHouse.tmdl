@@ -1,0 +1,44 @@
+table AUM_by_FundHouse
+	lineageTag: bb000003-0000-0000-0000-000000000003
+
+	column date
+		dataType: dateTime
+		isKey
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column fund_house
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column aum_lakh_crore
+		dataType: double
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	column aum_crore
+		dataType: double
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	column num_schemes
+		dataType: int64
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	partition 'AUM_by_FundHouse' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/03_aum_by_fund_house.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"date", type date},
+					{"aum_lakh_crore", type number},
+					{"aum_crore", type number},
+					{"num_schemes", Int64.Type}
+				})
+			in
+				Typed

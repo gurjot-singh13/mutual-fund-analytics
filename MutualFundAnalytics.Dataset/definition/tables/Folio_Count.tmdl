@@ -1,0 +1,52 @@
+table Folio_Count
+	lineageTag: bb000006-0000-0000-0000-000000000006
+
+	column date
+		dataType: dateTime
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column total_folios_crore
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column equity_folios_crore
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column debt_folios_crore
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column hybrid_folios_crore
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column others_folios_crore
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Folio_Count' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/06_industry_folio_count.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"total_folios_crore", type number},
+					{"equity_folios_crore", type number},
+					{"debt_folios_crore", type number},
+					{"hybrid_folios_crore", type number},
+					{"others_folios_crore", type number}
+				}),
+				DateCol = Table.AddColumn(Typed, "date",
+					each Date.FromText([month] & "-01"), type date),
+				Dropped = Table.RemoveColumns(DateCol, {"month"})
+			in
+				Dropped

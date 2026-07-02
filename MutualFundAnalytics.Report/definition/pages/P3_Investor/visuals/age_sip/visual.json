@@ -1,0 +1,98 @@
+{
+  "name": "age_sip",
+  "position": {
+    "x": 195,
+    "y": 300,
+    "z": 0,
+    "height": 280,
+    "width": 520,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Investor_Transactions"
+                    }
+                  },
+                  "Property": "age_group"
+                }
+              },
+              "queryRef": "Investor_Transactions.age_group"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Avg SIP Amount"
+                }
+              },
+              "queryRef": "_Measures.Avg SIP Amount"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Investor_Transactions"
+                    }
+                  },
+                  "Property": "city_tier"
+                }
+              },
+              "queryRef": "Investor_Transactions.city_tier"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Avg SIP Amount by Age Group & City Tier'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": []
+}

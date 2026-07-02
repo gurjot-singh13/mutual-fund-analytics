@@ -1,0 +1,47 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+
+	relationship 'fm_to_nav'
+		fromColumn: NAV_History[amfi_code]
+		toColumn: Fund_Master[amfi_code]
+
+	relationship 'fm_to_txn'
+		fromColumn: Investor_Transactions[amfi_code]
+		toColumn: Fund_Master[amfi_code]
+
+	relationship 'fm_to_holdings'
+		fromColumn: Portfolio_Holdings[amfi_code]
+		toColumn: Fund_Master[amfi_code]
+
+	relationship 'fm_to_perf'
+		fromCardinality: one
+		fromColumn: Scheme_Performance[amfi_code]
+		toColumn: Fund_Master[amfi_code]
+
+	relationship 'fm_to_scorecard'
+		fromCardinality: one
+		fromColumn: Fund_Scorecard[amfi_code]
+		toColumn: Fund_Master[amfi_code]
+
+	relationship 'fm_to_aum'
+		fromColumn: AUM_by_FundHouse[fund_house]
+		toColumn: Fund_Master[fund_house]
+		crossFilteringBehavior: bothDirections
+
+	relationship 'dimdate_to_nav'
+		fromColumn: NAV_History[date]
+		toColumn: Dim_Date[Date]
+
+	relationship 'dimdate_to_txn'
+		fromColumn: Investor_Transactions[transaction_date]
+		toColumn: Dim_Date[Date]
+		isActive: false
+
+	relationship 'dimdate_to_bench'
+		fromColumn: Benchmark_Indices[date]
+		toColumn: Dim_Date[Date]
+		isActive: false
+
+	annotation PBIDesktopVersion = 2.130.0.0

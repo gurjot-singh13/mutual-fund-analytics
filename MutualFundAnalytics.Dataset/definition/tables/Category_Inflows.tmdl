@@ -1,0 +1,33 @@
+table Category_Inflows
+	lineageTag: bb000005-0000-0000-0000-000000000005
+
+	column date
+		dataType: dateTime
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column net_inflow_crore
+		dataType: double
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Category_Inflows' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/05_category_inflows.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"net_inflow_crore", type number}
+				}),
+				DateCol = Table.AddColumn(Typed, "date",
+					each Date.FromText([month] & "-01"), type date),
+				Dropped = Table.RemoveColumns(DateCol, {"month"})
+			in
+				Dropped

@@ -1,0 +1,96 @@
+table Fund_Master
+	lineageTag: bb000001-0000-0000-0000-000000000001
+
+	column amfi_code
+		dataType: int64
+		isKey
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column fund_house
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column scheme_name
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column sub_category
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column plan
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column launch_date
+		dataType: dateTime
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column benchmark
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column expense_ratio_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column exit_load_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column min_sip_amount
+		dataType: int64
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column min_lumpsum_amount
+		dataType: int64
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column fund_manager
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column risk_category
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column sebi_category_code
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Fund_Master' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/01_fund_master.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"amfi_code", Int64.Type},
+					{"expense_ratio_pct", type number},
+					{"exit_load_pct", type number},
+					{"min_sip_amount", Int64.Type},
+					{"min_lumpsum_amount", Int64.Type},
+					{"launch_date", type date}
+				})
+			in
+				Typed

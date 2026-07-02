@@ -1,0 +1,68 @@
+{
+  "name": "payment_mode",
+  "position": {
+    "x": 195,
+    "y": 590,
+    "z": 0,
+    "height": 120,
+    "width": 1075,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Investor_Transactions"
+                    }
+                  },
+                  "Property": "payment_mode"
+                }
+              },
+              "queryRef": "Investor_Transactions.payment_mode"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Transaction Count"
+                }
+              },
+              "queryRef": "_Measures.Transaction Count"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Transactions by Payment Mode'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": []
+}

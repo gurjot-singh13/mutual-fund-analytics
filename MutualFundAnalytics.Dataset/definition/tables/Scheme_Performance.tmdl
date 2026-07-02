@@ -1,0 +1,124 @@
+table Scheme_Performance
+	lineageTag: bb000007-0000-0000-0000-000000000007
+
+	column amfi_code
+		dataType: int64
+		isKey
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column scheme_name
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column fund_house
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column plan
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column return_1yr_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column return_3yr_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column return_5yr_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column benchmark_3yr_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column alpha
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column beta
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column sharpe_ratio
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column sortino_ratio
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column std_dev_ann_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column max_drawdown_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column aum_crore
+		dataType: double
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	column expense_ratio_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column morningstar_rating
+		dataType: int64
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column risk_grade
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Scheme_Performance' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/07_scheme_performance.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"amfi_code", Int64.Type},
+					{"return_1yr_pct", type number},
+					{"return_3yr_pct", type number},
+					{"return_5yr_pct", type number},
+					{"benchmark_3yr_pct", type number},
+					{"alpha", type number},
+					{"beta", type number},
+					{"sharpe_ratio", type number},
+					{"sortino_ratio", type number},
+					{"std_dev_ann_pct", type number},
+					{"max_drawdown_pct", type number},
+					{"aum_crore", type number},
+					{"expense_ratio_pct", type number},
+					{"morningstar_rating", Int64.Type}
+				})
+			in
+				Typed

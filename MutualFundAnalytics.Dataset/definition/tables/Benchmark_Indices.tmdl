@@ -1,0 +1,32 @@
+table Benchmark_Indices
+	lineageTag: bb00000a-0000-0000-0000-00000000000a
+
+	column date
+		dataType: dateTime
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+		annotation UnderlyingDateTimeDataType = Date
+
+	column index_name
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column close_value
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Benchmark_Indices' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/10_benchmark_indices.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"date", type date},
+					{"close_value", type number}
+				})
+			in
+				Typed

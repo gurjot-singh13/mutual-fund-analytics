@@ -1,0 +1,164 @@
+{
+  "name": "BluestockTheme",
+  "dataColors": [
+    "#1B998B",
+    "#F2A541",
+    "#0B2545",
+    "#E4572E",
+    "#6C7A89",
+    "#2C7BE5",
+    "#FFB900",
+    "#00B388",
+    "#C0392B",
+    "#8E44AD",
+    "#2ECC71",
+    "#E67E22"
+  ],
+  "good": "#1B998B",
+  "neutral": "#F2A541",
+  "bad": "#E4572E",
+  "maximum": "#1B998B",
+  "center": "#F7F8FA",
+  "minimum": "#E4572E",
+  "null": "#6C7A89",
+  "background": "#F7F8FA",
+  "foreground": "#0B2545",
+  "tableAccent": "#1B998B",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "fontFamily": [
+          {
+            "value": "Segoe UI"
+          }
+        ],
+        "fontSize": [
+          {
+            "value": 11
+          }
+        ],
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ]
+      },
+      "title": {
+        "fontColor": [
+          {
+            "solid": {
+              "color": "#0B2545"
+            }
+          }
+        ],
+        "background": [
+          {
+            "solid": {
+              "color": "#FFFFFF"
+            }
+          }
+        ],
+        "fontSize": [
+          {
+            "value": 13
+          }
+        ],
+        "fontFamily": [
+          {
+            "value": "Segoe UI Semibold"
+          }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#0B2545"
+              }
+            }
+          }
+        ],
+        "calloutValue": [
+          {
+            "color": {
+              "solid": {
+                "color": "#1B998B"
+              }
+            },
+            "fontSize": {
+              "value": 28
+            },
+            "fontFamily": {
+              "value": "Segoe UI Semibold"
+            }
+          }
+        ],
+        "labels": [
+          {
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "fontSize": {
+              "value": 11
+            }
+          }
+        ]
+      }
+    },
+    "slicer": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F7F8FA"
+              }
+            }
+          }
+        ],
+        "header": [
+          {
+            "fontColor": {
+              "solid": {
+                "color": "#0B2545"
+              }
+            },
+            "background": {
+              "solid": {
+                "color": "#E8EDF2"
+              }
+            }
+          }
+        ],
+        "items": [
+          {
+            "fontColor": {
+              "solid": {
+                "color": "#2C3E50"
+              }
+            },
+            "background": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

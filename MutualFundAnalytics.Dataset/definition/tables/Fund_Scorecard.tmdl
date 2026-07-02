@@ -1,0 +1,104 @@
+table Fund_Scorecard
+	lineageTag: bb00000b-0000-0000-0000-00000000000b
+
+	column amfi_code
+		dataType: int64
+		isKey
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column scheme_name
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column CAGR_1Y
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column CAGR_3Y
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column CAGR_5Y
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column sharpe_ratio
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column alpha
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column expense_ratio_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column max_drawdown
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column rank_return
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column rank_sharpe
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column rank_alpha
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column rank_expense
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column rank_drawdown
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column fund_score
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Fund_Scorecard' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/fund_scorecard.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"amfi_code", Int64.Type},
+					{"CAGR_1Y", type number},
+					{"CAGR_3Y", type number},
+					{"CAGR_5Y", type number},
+					{"sharpe_ratio", type number},
+					{"alpha", type number},
+					{"expense_ratio_pct", type number},
+					{"max_drawdown", type number},
+					{"rank_return", type number},
+					{"rank_sharpe", type number},
+					{"rank_alpha", type number},
+					{"rank_expense", type number},
+					{"rank_drawdown", type number},
+					{"fund_score", type number}
+				})
+			in
+				Typed

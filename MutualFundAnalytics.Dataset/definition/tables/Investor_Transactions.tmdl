@@ -1,0 +1,84 @@
+table Investor_Transactions
+	lineageTag: bb000008-0000-0000-0000-000000000008
+
+	column investor_id
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_date
+		dataType: dateTime
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+		annotation UnderlyingDateTimeDataType = Date
+
+	column amfi_code
+		dataType: int64
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_type
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column amount_inr
+		dataType: double
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column city_tier
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column age_group
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column annual_income_lakh
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column payment_mode
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column kyc_status
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Investor_Transactions' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/08_investor_transactions.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"transaction_date", type date},
+					{"amfi_code", Int64.Type},
+					{"amount_inr", type number},
+					{"annual_income_lakh", type number}
+				})
+			in
+				Typed

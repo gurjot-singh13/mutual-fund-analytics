@@ -1,0 +1,59 @@
+table Portfolio_Holdings
+	lineageTag: bb000009-0000-0000-0000-000000000009
+
+	column amfi_code
+		dataType: int64
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column stock_symbol
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column stock_name
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column weight_pct
+		dataType: double
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	column market_value_cr
+		dataType: double
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	column current_price_inr
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column portfolio_date
+		dataType: dateTime
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Portfolio_Holdings' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/09_portfolio_holdings.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"amfi_code", Int64.Type},
+					{"weight_pct", type number},
+					{"market_value_cr", type number},
+					{"current_price_inr", type number},
+					{"portfolio_date", type date}
+				})
+			in
+				Typed

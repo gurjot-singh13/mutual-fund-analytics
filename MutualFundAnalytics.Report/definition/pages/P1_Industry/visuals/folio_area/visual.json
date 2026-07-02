@@ -1,0 +1,109 @@
+{
+  "name": "folio_area",
+  "position": {
+    "x": 800,
+    "y": 500,
+    "z": 0,
+    "height": 200,
+    "width": 460,
+    "tabOrder": 3010
+  },
+  "visual": {
+    "visualType": "areaChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Folio_Count"
+                    }
+                  },
+                  "Property": "date"
+                }
+              },
+              "queryRef": "Folio_Count.date"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Folio_Count"
+                        }
+                      },
+                      "Property": "equity_folios_crore"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Folio_Count.equity_folios_crore)"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Folio_Count"
+                        }
+                      },
+                      "Property": "debt_folios_crore"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Folio_Count.debt_folios_crore)"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Folio_Count"
+                        }
+                      },
+                      "Property": "hybrid_folios_crore"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Folio_Count.hybrid_folios_crore)"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Investor Folio Trend (Crore)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": []
+}

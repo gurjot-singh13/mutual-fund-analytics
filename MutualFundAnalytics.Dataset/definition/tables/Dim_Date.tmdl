@@ -1,0 +1,69 @@
+table Dim_Date
+	lineageTag: bb00000c-0000-0000-0000-00000000000c
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		summarizeBy: none
+		sortByColumn: Month
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeek
+		dataType: string
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim_Date' = m
+		mode: import
+		source =
+			let
+				StartDate = #date(2022, 1, 1),
+				EndDate   = #date(2026, 5, 29),
+				DayCount  = Duration.Days(EndDate - StartDate) + 1,
+				Dates     = List.Dates(StartDate, DayCount, #duration(1,0,0,0)),
+				Tbl       = Table.FromList(Dates, Splitter.SplitByNothing(),
+							type table [Date = date]),
+				Year      = Table.AddColumn(Tbl, "Year",
+							each Date.Year([Date]), Int64.Type),
+				Month     = Table.AddColumn(Year, "Month",
+							each Date.Month([Date]), Int64.Type),
+				MonthName = Table.AddColumn(Month, "MonthName",
+							each Date.MonthName([Date]), type text),
+				Quarter   = Table.AddColumn(MonthName, "Quarter",
+							each "Q" & Text.From(Date.QuarterOfYear([Date])), type text),
+				YearMonth = Table.AddColumn(Quarter, "YearMonth",
+							each Text.From([Year]) & "-" &
+							Text.PadStart(Text.From([Month]),2,"0"), type text),
+				DOW       = Table.AddColumn(YearMonth, "DayOfWeek",
+							each Date.DayOfWeekName([Date]), type text)
+			in
+				DOW
+
+	annotation $__PBI_MarkAsDateTable = {"DefaultColumn": "Date"}

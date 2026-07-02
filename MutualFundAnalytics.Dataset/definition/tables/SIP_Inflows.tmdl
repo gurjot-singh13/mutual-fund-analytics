@@ -1,0 +1,53 @@
+table SIP_Inflows
+	lineageTag: bb000004-0000-0000-0000-000000000004
+
+	column date
+		dataType: dateTime
+		summarizeBy: none
+		annotation SummarizationSetBy = Automatic
+		annotation UnderlyingDateTimeDataType = Date
+
+	column sip_inflow_crore
+		dataType: double
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	column active_sip_accounts_crore
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column new_sip_accounts_lakh
+		dataType: double
+		summarizeBy: sum
+		annotation SummarizationSetBy = Automatic
+
+	column sip_aum_lakh_crore
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	column yoy_growth_pct
+		dataType: double
+		summarizeBy: average
+		annotation SummarizationSetBy = Automatic
+
+	partition 'SIP_Inflows' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("C:/MutualFundAnalytics/Data/04_monthly_sip_inflows.csv"),
+					[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Promoted, {
+					{"sip_inflow_crore", type number},
+					{"active_sip_accounts_crore", type number},
+					{"new_sip_accounts_lakh", type number},
+					{"sip_aum_lakh_crore", type number},
+					{"yoy_growth_pct", type number}
+				}),
+				DateCol = Table.AddColumn(Typed, "date",
+					each Date.FromText([month] & "-01"), type date),
+				Dropped = Table.RemoveColumns(DateCol, {"month"})
+			in
+				Dropped

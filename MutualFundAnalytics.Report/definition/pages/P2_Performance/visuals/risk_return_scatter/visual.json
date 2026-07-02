@@ -1,0 +1,193 @@
+{
+  "name": "risk_return_scatter",
+  "position": {
+    "x": 205,
+    "y": 145,
+    "z": 0,
+    "height": 310,
+    "width": 500,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Scheme_Performance"
+                    }
+                  },
+                  "Property": "std_dev_ann_pct"
+                }
+              },
+              "queryRef": "Scheme_Performance.std_dev_ann_pct"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Scheme_Performance"
+                    }
+                  },
+                  "Property": "alpha"
+                }
+              },
+              "queryRef": "Scheme_Performance.alpha"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Scheme_Performance"
+                        }
+                      },
+                      "Property": "aum_crore"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Scheme_Performance.aum_crore)"
+            }
+          ]
+        },
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Scheme_Performance"
+                    }
+                  },
+                  "Property": "scheme_name"
+                }
+              },
+              "queryRef": "Scheme_Performance.scheme_name"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Scheme_Performance"
+                    }
+                  },
+                  "Property": "category"
+                }
+              },
+              "queryRef": "Scheme_Performance.category"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Scheme_Performance"
+                    }
+                  },
+                  "Property": "sharpe_ratio"
+                }
+              },
+              "queryRef": "Scheme_Performance.sharpe_ratio"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Scheme_Performance"
+                    }
+                  },
+                  "Property": "beta"
+                }
+              },
+              "queryRef": "Scheme_Performance.beta"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Scheme_Performance"
+                    }
+                  },
+                  "Property": "return_3yr_pct"
+                }
+              },
+              "queryRef": "Scheme_Performance.return_3yr_pct"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Return vs Risk (Alpha vs Std Dev)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "xAxis": [
+        {
+          "properties": {
+            "title": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Std Dev (Ann%)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "yAxis": [
+        {
+          "properties": {
+            "title": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Alpha'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": []
+}

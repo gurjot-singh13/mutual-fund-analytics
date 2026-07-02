@@ -1,0 +1,12 @@
+{
+  "name": "P4_SIP_Market",
+  "displayName": "📈 SIP & Market Trends",
+  "ordinal": 3,
+  "type": "Normal",
+  "height": 720,
+  "width": 1280,
+  "config": {
+    "visibility": 0,
+    "displayOption": 3
+  }
+}

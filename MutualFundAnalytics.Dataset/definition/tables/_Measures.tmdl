@@ -1,0 +1,188 @@
+table _Measures
+	lineageTag: bb00000d-0000-0000-0000-00000000000d
+
+	/// ── Industry KPIs ──────────────────────────────────────────────────────────
+
+	measure 'Total AUM (Latest)' =
+			CALCULATE(
+			    SUM(AUM_by_FundHouse[aum_crore]),
+			    LASTDATE(AUM_by_FundHouse[date])
+			)
+		formatString: "#,##0"
+		lineageTag: cc000001
+
+	measure 'Total AUM Label' =
+			VAR v = [Total AUM (Latest)]
+			RETURN
+			IF(v >= 100000, FORMAT(v/100000,"0.0") & " L Cr",
+			   FORMAT(v,"#,##0") & " Cr")
+		lineageTag: cc000002
+
+	measure 'AUM YoY Growth %' =
+			VAR latest = CALCULATE(MAX(AUM_by_FundHouse[date]))
+			VAR curr   = CALCULATE(
+			    SUM(AUM_by_FundHouse[aum_crore]),
+			    AUM_by_FundHouse[date] = latest)
+			VAR prev   = CALCULATE(
+			    SUM(AUM_by_FundHouse[aum_crore]),
+			    AUM_by_FundHouse[date] = DATE(YEAR(latest)-1, MONTH(latest), 1))
+			RETURN DIVIDE(curr - prev, ABS(prev))
+		formatString: "0.0%"
+		lineageTag: cc000003
+
+	measure 'Total SIP Inflow (Cr)' = SUM(SIP_Inflows[sip_inflow_crore])
+		formatString: "#,##0"
+		lineageTag: cc000004
+
+	measure 'Total Folios (Latest Cr)' =
+			CALCULATE(
+			    MAX(Folio_Count[total_folios_crore]),
+			    LASTDATE(Folio_Count[date])
+			)
+		formatString: "0.00"
+		lineageTag: cc000005
+
+	measure 'Total Schemes' = DISTINCTCOUNT(Fund_Master[amfi_code])
+		formatString: "#,##0"
+		lineageTag: cc000006
+
+	measure 'Industry AUM (Cr)' = SUM(AUM_by_FundHouse[aum_crore])
+		formatString: "#,##0"
+		lineageTag: cc000007
+
+	/// ── Performance KPIs ───────────────────────────────────────────────────────
+
+	measure 'Avg Fund Score' = AVERAGE(Fund_Scorecard[fund_score])
+		formatString: "0.0"
+		lineageTag: cc000010
+
+	measure 'Avg Sharpe Ratio' = AVERAGE(Scheme_Performance[sharpe_ratio])
+		formatString: "0.00"
+		lineageTag: cc000011
+
+	measure 'Avg Alpha' = AVERAGE(Scheme_Performance[alpha])
+		formatString: "0.00"
+		lineageTag: cc000012
+
+	measure 'Excess Return vs Benchmark' =
+			AVERAGE(Scheme_Performance[return_3yr_pct])
+			- AVERAGE(Scheme_Performance[benchmark_3yr_pct])
+		formatString: "0.00"
+		lineageTag: cc000013
+
+	measure 'Avg CAGR 3Y' = AVERAGE(Fund_Scorecard[CAGR_3Y])
+		formatString: "0.0%"
+		lineageTag: cc000014
+
+	measure 'Avg CAGR 1Y' = AVERAGE(Fund_Scorecard[CAGR_1Y])
+		formatString: "0.0%"
+		lineageTag: cc000015
+
+	measure 'Top Fund Score' =
+			CALCULATEDIRECT(
+			    MAX(Fund_Scorecard[fund_score]),
+			    TOPN(1, ALL(Fund_Scorecard), Fund_Scorecard[fund_score], DESC)
+			)
+		formatString: "0.0"
+		lineageTag: cc000016
+
+	measure 'Latest NAV' =
+			CALCULATE(MAX(NAV_History[nav]), LASTDATE(NAV_History[date]))
+		formatString: "#,##0.00"
+		lineageTag: cc000017
+
+	measure 'NAV Return % (Period)' =
+			VAR first = CALCULATE(MIN(NAV_History[nav]), FIRSTDATE(NAV_History[date]))
+			VAR last  = [Latest NAV]
+			RETURN DIVIDE(last - first, first)
+		formatString: "0.0%"
+		lineageTag: cc000018
+
+	/// ── Investor KPIs ───────────────────────────────────────────────────────────
+
+	measure 'Total Transaction Value' = SUM(Investor_Transactions[amount_inr])
+		formatString: "#,##0"
+		lineageTag: cc000020
+
+	measure 'Investor Count' = DISTINCTCOUNT(Investor_Transactions[investor_id])
+		formatString: "#,##0"
+		lineageTag: cc000021
+
+	measure 'Avg Ticket Size' =
+			DIVIDE([Total Transaction Value], COUNTROWS(Investor_Transactions))
+		formatString: "#,##0"
+		lineageTag: cc000022
+
+	measure 'Verified KYC %' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(Investor_Transactions),
+			        Investor_Transactions[kyc_status] = "Verified"),
+			    COUNTROWS(Investor_Transactions)
+			)
+		formatString: "0.0%"
+		lineageTag: cc000023
+
+	measure 'Net Investor Flow' =
+			CALCULATE(SUM(Investor_Transactions[amount_inr]),
+			    Investor_Transactions[transaction_type] IN {"SIP","Lumpsum"})
+			- CALCULATE(SUM(Investor_Transactions[amount_inr]),
+			    Investor_Transactions[transaction_type] = "Redemption")
+		formatString: "#,##0"
+		lineageTag: cc000024
+
+	measure 'SIP Value' =
+			CALCULATE(SUM(Investor_Transactions[amount_inr]),
+			    Investor_Transactions[transaction_type] = "SIP")
+		formatString: "#,##0"
+		lineageTag: cc000025
+
+	measure 'Lumpsum Value' =
+			CALCULATE(SUM(Investor_Transactions[amount_inr]),
+			    Investor_Transactions[transaction_type] = "Lumpsum")
+		formatString: "#,##0"
+		lineageTag: cc000026
+
+	measure 'Redemption Value' =
+			CALCULATE(SUM(Investor_Transactions[amount_inr]),
+			    Investor_Transactions[transaction_type] = "Redemption")
+		formatString: "#,##0"
+		lineageTag: cc000027
+
+	measure 'Avg SIP Amount' =
+			CALCULATE(
+			    AVERAGE(Investor_Transactions[amount_inr]),
+			    Investor_Transactions[transaction_type] = "SIP"
+			)
+		formatString: "#,##0"
+		lineageTag: cc000028
+
+	measure 'Transaction Count' = COUNTROWS(Investor_Transactions)
+		formatString: "#,##0"
+		lineageTag: cc000029
+
+	measure 'Monthly Transaction Count' =
+			CALCULATE(COUNTROWS(Investor_Transactions),
+			    USERELATIONSHIP(Investor_Transactions[transaction_date], Dim_Date[Date]))
+		formatString: "#,##0"
+		lineageTag: cc00002a
+
+	/// ── SIP & Market ────────────────────────────────────────────────────────────
+
+	measure 'NIFTY50 Close' =
+			CALCULATE(
+			    AVERAGE(Benchmark_Indices[close_value]),
+			    Benchmark_Indices[index_name] = "NIFTY50",
+			    USERELATIONSHIP(Benchmark_Indices[date], Dim_Date[Date])
+			)
+		formatString: "#,##0"
+		lineageTag: cc000030
+
+	measure 'Net Category Inflow' = SUM(Category_Inflows[net_inflow_crore])
+		formatString: "#,##0"
+		lineageTag: cc000031
+
+	partition _Measures = m
+		mode: import
+		source = #table(type table [], {})
+
+	annotation PBI_HideTableInReport = true

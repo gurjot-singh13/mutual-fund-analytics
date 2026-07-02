@@ -1,0 +1,143 @@
+{
+  "name": "sip_vs_nifty",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "height": 290,
+    "width": 1270,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SIP_Inflows"
+                    }
+                  },
+                  "Property": "date"
+                }
+              },
+              "queryRef": "SIP_Inflows.date"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "SIP_Inflows"
+                        }
+                      },
+                      "Property": "sip_inflow_crore"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(SIP_Inflows.sip_inflow_crore)"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "NIFTY50 Close"
+                }
+              },
+              "queryRef": "_Measures.NIFTY50 Close"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Monthly SIP Inflow vs NIFTY50 Index'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "title": {
+              "expr": {
+                "Literal": {
+                  "Value": "'SIP Inflow (₹ Cr)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis2": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "title": {
+              "expr": {
+                "Literal": {
+                  "Value": "'NIFTY50'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": []
+}

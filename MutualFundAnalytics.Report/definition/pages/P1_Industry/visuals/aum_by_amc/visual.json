@@ -1,0 +1,90 @@
+{
+  "name": "aum_by_amc",
+  "position": {
+    "x": 800,
+    "y": 210,
+    "z": 0,
+    "height": 270,
+    "width": 460,
+    "tabOrder": 2010
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AUM_by_FundHouse"
+                    }
+                  },
+                  "Property": "fund_house"
+                }
+              },
+              "queryRef": "AUM_by_FundHouse.fund_house"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AUM_by_FundHouse"
+                        }
+                      },
+                      "Property": "aum_crore"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(AUM_by_FundHouse.aum_crore)"
+            }
+          ]
+        }
+      }
+    },
+    "vcObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'AUM by AMC (₹ Crore)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "defaultColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B998B'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filters": []
+}
